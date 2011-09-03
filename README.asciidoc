@@ -1,0 +1,25 @@
+= Fossil Backend for AsciiDoc
+
+
+An http://www.methods.co.nz/asciidoc/[AsciiDoc] configuration file
+that can be used to create a simple backend plugin for generating
+http://www.fossil-scm.org[Fossil] friendly Wiki markup from AsciiDoc
+source (I wrote it as a proof-of-concept of the new AsciiDoc backend
+plugins).
+
+
+== Installation
+To install the Fossil backend plubin download the `fossil.zip` file
+and run:
+
+  asciidoc --backend install fossil.zip
+
+
+== Usage
+Use the 'fossil' backend as you would the built-in backends. For
+example, this command will insert a Wiki page called 'AsciiDoc' into
+the current Fossil repository:
+
+  asciidoc -b fossil -o - asciidoc.txt | fossil wiki commit AsciiDoc
+
+NOTE: You will need AsciiDoc version 8.6.6 or better.
