@@ -17,9 +17,15 @@ and run:
 
 == Usage
 Use the 'fossil' backend as you would the built-in backends. For
-example, this command will insert a Wiki page called 'AsciiDoc' into
-the current Fossil repository:
+example, this command will create a Wiki page called 'AsciiDoc' in the
+current Fossil repository:
 
-  asciidoc -b fossil -o - asciidoc.txt | fossil wiki commit AsciiDoc
+  asciidoc -b fossil -o - asciidoc.txt | fossil wiki create AsciiDoc
 
-NOTE: You will need AsciiDoc version 8.6.6 or better.
+[NOTE]
+--
+- You will need AsciiDoc version 8.6.6 or newer to use the Fossil
+  backend.
+- To update an existing wiki page use the Fossil `wiki commit` command
+  (not `wiki create`).
+--
