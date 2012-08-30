@@ -1,31 +1,65 @@
 = Fossil Backend for AsciiDoc
 
 
-An http://www.methods.co.nz/asciidoc/[AsciiDoc] configuration file
-that can be used to create a simple backend plugin for generating
+An http://www.methods.co.nz/asciidoc/[AsciiDoc] plugin for generating
 http://www.fossil-scm.org[Fossil] friendly Wiki markup from AsciiDoc
-source (I wrote it as a proof-of-concept of the new AsciiDoc backend
-plugins).
+source.
 
 
 == Installation
-To install the Fossil backend plubin download the `fossil.zip` file
-and run:
+To install the Fossil plugin download
+https://github.com/downloads/srackham/asciidoc-fossil-backend/fossil.zip[fossil.zip]
+and install it using the AsciiDoc (you will need AsciiDoc version
+8.6.6 or newer):
 
   asciidoc --backend install fossil.zip
 
 
 == Usage
-Use the 'fossil' backend as you would the built-in backends. For
-example, this command will create a Wiki page called 'AsciiDoc' in the
-current Fossil repository:
+Use the 'fossil' backend as you would the built-in backends then pipe
+the output into Fossil. For example, this command will create a Wiki
+page called 'AsciiDoc' in the current Fossil repository:
 
   asciidoc -b fossil -o - asciidoc.txt | fossil wiki create AsciiDoc
 
+This command updates the existing wiki page:
+
+  asciidoc -b fossil -o - asciidoc.txt | fossil wiki commit AsciiDoc
+
 [NOTE]
 --
+- By default linked images and admonition icons will be embedded in
+  the wiki documents using the
+  https://en.wikipedia.org/wiki/Data_URI_scheme[data URI scheme]
+  (AsciiDoc 'data-uri' and 'icons' attributes are set in the
+  plugin's `fossil.conf` file).
+- Older browsers (notably IE8) limit the size of data URIs.
 - You will need AsciiDoc version 8.6.6 or newer to use the Fossil
   backend.
 - To update an existing wiki page use the Fossil `wiki commit` command
   (not `wiki create`).
+
 --
+
+
+== Wiki HTML limitations
+By default the Fossil http://fossil-scm.org/xfer/wiki_rules[wiki
+formatting rules] enforce an HTML subset. If you want richer HTML
+wiki pages you could enable the Fossil 'Use HTML as wiki markup language'
+configuration option, but this is not advisable because:
+
+. Malicious users could inject dangerous HTML, CSS and JavaScript code
+  into your wiki.
+. It is not a supported option.
+. Wiki links `[...]` are translated to HTML links which in turn
+  precludes the use of HTML embedded 'script' and 'style' elements.
+
+Keep in mind that wikis are designed  to allow casual users to enter
+short relatively simple notes. Project documentation (which is
+often longer and more complex) is usually better served using
+Fossil's
+http://www.fossil-scm.org/index.html/doc/tip/www/embeddeddoc.wiki[Embedded
+Documentation] feature.
+
+Another gotcha is that currently the Fossil web server does not follow
+symlinks, instead it displays the content of the symlink file.
