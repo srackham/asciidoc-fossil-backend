@@ -20,11 +20,11 @@ Use the 'fossil' backend as you would the built-in backends then pipe
 the output into Fossil. For example, this command will create a Wiki
 page called 'AsciiDoc' in the current Fossil repository:
 
-  asciidoc -b fossil -o - asciidoc.txt | fossil wiki create AsciiDoc
+  asciidoc -b fossil -a iconsdir=./icons -o - asciidoc.txt | fossil wiki create AsciiDoc
 
 This command updates the existing wiki page:
 
-  asciidoc -b fossil -o - asciidoc.txt | fossil wiki commit AsciiDoc
+  asciidoc -b fossil -a iconsdir=./icons -o - asciidoc.txt | fossil wiki commit AsciiDoc
 
 [NOTE]
 --
@@ -38,6 +38,10 @@ This command updates the existing wiki page:
   backend.
 - To update an existing wiki page use the Fossil `wiki commit` command
   (not `wiki create`).
+- Specifying the location of the admonition icons by setting the
+  'iconsdir' attribute has been rendered unnecessary by
+  https://code.google.com/p/asciidoc/source/detail?r=dd07b38888fdfe8cd80d18f12aa7d21e3dd11eb6[a
+  commit] made on 11-September-2012.
 
 --
 
